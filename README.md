@@ -31,15 +31,40 @@ optional parameters:
 2. libcap2-bin [optional] - for non root execution    
 
 
-## Install:
-1. Copy: pwnybrau_tilt.tar to /opt
-2. extract: tar -xvf pwnbrau_tilt.tar
-
-## Configuration - Pwnbrau Tilt service
+## Install pwnybrau_tilt:
+1. copy pwnybrau_tilt into /opt/pwnybrau_tilt
+2. from ddunmire/bython-bleson project, copy the bleson folder into /opt/pwnybrau_tilt/bin
 
 
+## Configuration - Pwnbrau Tilt splunk addon for Universal Forwarder (UF)
+ 
+### Install Splunk and configure it to get data in (DGI)
+1. Install Splunk Univeral Forwarder  \
+     (https://docs.splunk.com/Documentation/Forwarder/8.0.0/Forwarder/Installanixuniversalforwarder)  
+2. Follow the GDI steps from splunk developer service (SDS) to configure your certificate 
+     (https://dev.splunk.com/scs/docs/add/ingest_forwarder)
+3. 
 
-### Configuration - runas non-root
+### Configure UF to use pwnybrau_tilt     
+1. create symbolic link so pwnybrau_tilt is app under splunk \
+    ln -s /opt/pwnybrau_tilt /opt/splunkforwarder/etc/apps/pwnybrau_tilt
+2. restart splunk
+
+### Splunk Developer Services (SDS) - import pipeline and dashboards
+The pipeline will process events sent to SDS and store them in the correct indexes.  The indexes can be searched via Splunk Investigate (SI).
+1. login to SDS and access your tenant
+2. TODO:  create pipelines and store in pwnybrau_tilt/pipelines :)  
+
+
+
+
+
+
+
+
+## Special note:  pwnybrau running as non-root user
+Bluetooth BLE on linux will require root access by default.  You can use the libcap2-bin package to grant python access. 
+
 Assume user = splunk
 
 1. install libcap2-bin package\
@@ -48,5 +73,4 @@ Assume user = splunk
     sudo setcap cap_net_raw,cap_net_admin+eip $(eval readlink -f `which python3`)
 4.
 
-## Configuration - Pwnbrau Tilt splunk addon for Universal Forwarder (UF)
-This addon is designed to configure the UF to watch the /opt/pwnybrau/logs folder for 
+
