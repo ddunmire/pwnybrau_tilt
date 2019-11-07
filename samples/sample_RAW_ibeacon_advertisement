@@ -1,0 +1,16 @@
+Advertisement(flags=0x04, name=None, txpower=None uuid16s=[] uuid128s=[] rssi=-65 mfg_data=b'L\x00\x02\x15\xa4\x95\xbb0\xc5\xb1KD\xb5\x12\x13p\xf0-t\xde\x00K\x04\x11\xc5')
+2019-09-29 03:39:33,730  DEBUG -         linux_adapter.py:254 -                 _on_data(): ----------------------------------------------------------------------
+2019-09-29 03:39:33,734  DEBUG -         linux_adapter.py:255 -                 _on_data(): Socket data: len=42, data=04 3e 27 02 01 02 01 ee 08 13 2f b7 7b 1b 1a ff 4c 00 02 15 a4 95 bb 60 c5 b1 4b 44 b5 12 13 70 f0 2d 74 de 00 4c 03 f3 c5 a8
+2019-09-29 03:39:33,737  DEBUG -         linux_adapter.py:262 -                 _on_data(): HCI packet: evtname=LE_Meta_Event, evtcode=62, subevtCode=2, length=38
+2019-09-29 03:39:33,741  DEBUG -         linux_adapter.py:263 -                 _on_data(): HCI Packet data:01 02 01 ee 08 13 2f b7 7b 1b 1a ff 4c 00 02 15 a4 95 bb 60 c5 b1 4b 44 b5 12 13 70 f0 2d 74 de 00 4c 03 f3 c5 a8
+2019-09-29 03:39:33,745  DEBUG -         linux_adapter.py:242 -       _handle_meta_event(): EVT_LE_META_EVENT
+2019-09-29 03:39:33,749  DEBUG -         linux_adapter.py:245 -       _handle_meta_event(): LE Advertising Report
+2019-09-29 03:39:33,755  DEBUG -       type_converters.py:102 -          from_hcipayload(): Data: 01 02 01 ee 08 13 2f b7 7b 1b 1a ff 4c 00 02 15 a4 95 bb 60 c5 b1 4b 44 b5 12 13 70 f0 2d74 de 00 4c 03 f3 c5 a8
+2019-09-29 03:39:33,759  DEBUG -       type_converters.py:103 -          from_hcipayload(): POS : 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 2930 31 32 33 34 35 36 37
+2019-09-29 03:39:33,764  DEBUG -       type_converters.py:106 -          from_hcipayload(): Num Reports 1
+2019-09-29 03:39:33,767  DEBUG -                 types.py:161 -                 __init__(): BDAddress('7B:B7:2F:13:08:EE')
+2019-09-29 03:39:33,770  DEBUG -                 types.py:218 -                 __init__(): Advertisement(flags=0x06, name=None, txpower=None uuid16s=[] uuid128s=[] rssi=-88 mfg_data=None)
+2019-09-29 03:39:33,774  DEBUG -       type_converters.py:126 -          from_hcipayload(): POS=10
+2019-09-29 03:39:33,778  DEBUG -       type_converters.py:130 -          from_hcipayload(): Pos=10 Type=0xff Len=26 Payload=4c 00 02 15 a4 95 bb 60 c5 b1 4b 44 b5 12 13 70 f0 2d 74 de 00 4c 03 f3 c5
+2019-09-29 03:39:33,782  DEBUG -       type_converters.py:190 -          from_hcipayload(): Manufacturer Data=b'L\x00\x02\x15\xa4\x95\xbb`\xc5\xb1KD\xb5\x12\x13p\xf0-t\xde\x00L\x03\xf3\xc5'
+2019-09-29 03:39:33,785  DEBUG -       type_converters.py:200 -          from_hcipayload(): Advertisement(flags=0x06, name=None, txpower=None uuid16s=[] uuid128s=[] rssi=-88 mfg_data=b'L\x00\x02\x15\xa4\x95\xbb`\xc5\xb1KD\xb5\x12\x13p\xf0-t\xde\x00L\x03\xf3\xc5')

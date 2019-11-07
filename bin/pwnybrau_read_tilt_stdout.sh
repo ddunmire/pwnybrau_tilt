@@ -1,7 +1,14 @@
 #!/bin/sh
 
 # Set up environment
-export loglevel="INFO"
+# loglevels :CRITICAL, ERROR, WARNING, INFO, DEBUG, NOTSET
+#
+#
+#
+#
+#
+#
+export loglevel="ERROR"
 export listentime=8 
 
 # execute sevice

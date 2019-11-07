@@ -21,7 +21,8 @@ _TILTS = {
 }
 
 _useStdOut = True
-_readingtemplate="timestamp={}, color={}, temp={}, gravity={}, rssi={}" 
+# format json object
+_readingtemplate='{{"timestamp":"{time}", "color":"{color}", "temp":{major}, "gravity":{minor}, "rssi":{rssi}}}'  
 
 def exit_handler():
    ###### TODO: gracefull shutdown
@@ -43,8 +44,8 @@ def on_advertisement(advertisement):
         _rssi = ibeacon.rssi
 
         if ibeacon.uuid in _TILTS:
-                msg=_readingtemplate.format(datetime.datetime.now().isoformat(), \
-                        _TILTS[ibeacon.uuid], ibeacon.major, ibeacon.minor/1000, ibeacon.rssi)
+                msg=_readingtemplate.format(time=datetime.datetime.now(datetime.timezone.utc).isoformat(), \
+                        color=_TILTS[ibeacon.uuid], major=ibeacon.major, minor=ibeacon.minor/1000, rssi=ibeacon.rssi)
 
                 if (_useStdOut):
                         print(msg)
@@ -79,7 +80,7 @@ adapter = get_provider().get_adapter()
 observer = Observer(adapter)
 observer.on_advertising_data = on_advertisement
 
-observer.start()
+observer.start(True)  # filter duplicates
 
 ###### Sleep this thread while the observer thread does its magic
 listentime = args.listentime
