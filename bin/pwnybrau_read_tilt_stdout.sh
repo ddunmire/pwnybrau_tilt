@@ -1,12 +1,10 @@
 #!/bin/sh
 
-# Set up environment
-# loglevels :CRITICAL, ERROR, WARNING, INFO, DEBUG, NOTSET
-#
-#
-#
-#
-#
+# pwnybrau_read_tilt_stdout.sh
+# Simple shortcut script to be called by a splunk univeral forwarder
+# BASH script calls python3 based script: pwnbrau_read_tilt.py
+#    OUTPUT: JSON : timestamp, Specific gravity. Temperature (degF)
+#    Sample output:  {"timestamp":"2019-11-11T15:35:07.046932+00:00","color":"Black","temp":74,"gravity":1.0390000343322754,"rssi":13}
 #
 export hciAdapterNum=0
 export loglevel="ERROR"

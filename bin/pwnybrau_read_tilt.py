@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-import atexit
-import argparse
-import datetime
-from time import sleep
-from bleson import get_provider, Observer
-from bleson.logger import log, set_level, DEBUG, INFO
-from bleson.core.hci.type_converters import hex_string
-from bleson.beacons.ibeacon import iBeacon_advertisement 
+import atexit     #used for graceful exit of script (clean up bluetooth)
+import argparse   #used to parse cmdline arguements to this script
+import datetime   #used for timestamps
+from time import sleep  #used to sleep thread
+from bleson import get_provider, Observer                #Bluetooth BLE module
+from bleson.logger import log, set_level, DEBUG, INFO    #Bluetooth BLE module: logging object
+from bleson.core.hci.type_converters import hex_string   #Bluetooth BLE module: convert 
+from bleson.beacons.ibeacon import iBeacon_advertisement #Bluetooth BLE module: iBeacon advertisement
 
 _TILTS = {
    'a495bb10c5b14b44b5121370f02d74de':'Red',
@@ -41,7 +41,7 @@ def on_advertisement(advertisement):
         _major = ibeacon.major
         _minor = ibeacon.minor
         _power = ibeacon.power
-        _rssi = ibeacon.rssi
+        _rssi = ibeacon.rssi     #TODO: RSSI is not always negative number.  need to investigate bluetooth adapter.
 
         if ibeacon.uuid in _TILTS:
                 msg=_readingtemplate.format(time=datetime.datetime.now(datetime.timezone.utc).isoformat(), \
