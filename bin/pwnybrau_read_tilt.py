@@ -58,7 +58,7 @@ def on_advertisement(advertisement):
 parser = argparse.ArgumentParser(description='pwnbrau.py will listen for ibeacon messages from a Tilt hydrometer and log them to file or stdout.')
 parser.add_argument("--logfile", default="stdout", help="path/file to output tilt measurements  [defaults to stdout if not included]")
 parser.add_argument("--loglevel", default="INFO", help="script logging level for messages (default: INFO) INFO, DEBUG, WARN, WARNING, ERROR")
-parser.add_argument("--listentime", type=int, default=-1, help="How the script will run (in seconds) before exiting.  (default=-1 run forever)")
+parser.add_argument("--listentime", type=float, default=-1, help="How the script will run (in seconds) before exiting.  (default=-1 run forever)")
 parser.add_argument("--hci", type=int, default=0, help="HCI adpater number for this device.  Use hciconfig to list devices and obtain number (X):  hciX (default=0)")
 
 args=parser.parse_args()
@@ -94,7 +94,7 @@ if listentime == -1:
       #TODO what other useful things could this thread do 
 
 else:
-   sleep (int(args.listentime))
+   sleep (args.listentime)
 
 
 
