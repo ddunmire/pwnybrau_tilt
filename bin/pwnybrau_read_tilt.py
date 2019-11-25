@@ -30,7 +30,7 @@ def exit_handler():
 
 def get_logfile():
    today=datetime.date.today()
-   logfile = logfile=args.logfile + "." + str(today.year) + "." + str(today.month) + "." + str(today.day) + ".log"
+   logfile = args.logfile + "." + str(today.year) + "." + str(today.month) + "." + str(today.day) + ".log"
    return logfile
 
 def on_advertisement(advertisement):
