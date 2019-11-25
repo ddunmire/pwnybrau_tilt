@@ -16,5 +16,5 @@ if [ -z ${SPLUNK_HOME} ]; then
    echo $DIRECTORY
    python3 $DIRECTORY/pwnybrau_read_tilt.py --hci=$hciAdapterNum --listentime=$listentime --loglevel=$loglevel
 else
-   python3 $SPLUNK_HOME/etc/apps/pwnybrau_tilt/bin/pwnybrau_read_tilt.py --hcid=$hciAdapterNum --listentime=$listentime --loglevel=$loglevel
+   python3 $SPLUNK_HOME/etc/apps/pwnybrau_tilt/bin/pwnybrau_read_tilt.py --hci=$hciAdapterNum --listentime=$listentime --loglevel=$loglevel
 fi
