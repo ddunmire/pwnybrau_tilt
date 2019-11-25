@@ -8,7 +8,7 @@
 #
 export hciAdapterNum=0
 export loglevel="ERROR"
-export listentime=8
+export listentime=1.3
 
 # execute sevice
 if [ -z ${SPLUNK_HOME} ]; then
