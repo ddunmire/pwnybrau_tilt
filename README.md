@@ -33,7 +33,7 @@ optional parameters:
 
 ## Install pwnybrau_tilt:
 1. copy pwnybrau_tilt into /opt/pwnybrau_tilt
-2. from ddunmire/bython-bleson project, copy the bleson folder into /opt/pwnybrau_tilt/bin
+2. from ddunmire/python-bleson project, copy the bleson folder into /opt/pwnybrau_tilt/bin
 
 
 ## Configuration - Pwnbrau Tilt splunk addon for Universal Forwarder (UF)
