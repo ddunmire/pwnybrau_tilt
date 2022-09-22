@@ -1,0 +1,3 @@
+[submodule "src/pwnybrau_library"]
+	path = src/pwnybrau_library
+	url = https://github.com/ddunmire/pwnybrau_library.git
