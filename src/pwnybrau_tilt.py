@@ -8,8 +8,10 @@ from bleson import get_provider, Observer                #Bluetooth BLE module
 from bleson.logger import log, set_level, DEBUG, INFO    #Bluetooth BLE module: logging object
 from bleson.core.hci.type_converters import hex_string   #Bluetooth BLE module: convert 
 #from bleson.beacons.ibeacon import iBeacon_advertisement #Bluetooth BLE module: iBeacon advertisement
+
 from ibeacon import iBeacon_advertisement               #Bluetooth BLE module: iBeacon advertisement
-from pwnybrau_library.publisher import publish_types, publish as pwnybrau_publish
+from pwnybrau_library.publisherfactory import PublisherFactory
+from pwnybrau_library.publisher import Publisher
 
 _TILTS = {
    'a495bb10c5b14b44b5121370f02d74de':'Red',
@@ -24,6 +26,7 @@ _TILTS = {
 
 _args = ""      #cmdline arguments
 _observer = ""
+_outputter:Publisher 
 
 # format json object
 _readingtemplate='{{"timestamp":"{time}", "color":"{color}", "temp":{major}, "gravity":{minor}, "rssi":{rssi}}}'  
@@ -57,33 +60,28 @@ def on_advertisement(advertisement):
                #          f = open(get_logfile(), "a")
                #          f.write(msg + "\n")
                #          f.close()
-               pwnybrau_publish(msg, _args)
+               _outputter.publish(msg)
 
 def main():
-   global _args, _observer
+   global _args, _outputter, _observer
 
    ###### Parse Arguements
    parser = argparse.ArgumentParser(description='pwnbrau.py will listen for ibeacon messages from a Tilt hydrometer and log them to file or stdout.')
-   parser.add_argument("--output", type=str, default="STDOUT", choices=publish_types, help="Where to output measurements: STDOUT, HEC, LOG. (Default: STDOUT)".join(publish_types))
+   parser.add_argument("--output", type=str, default="STDOUT", choices=PublisherFactory.PublisherTypes, help="Where to output measurements: (Default: STDOUT)")
    parser.add_argument("--output_config", type=str, default="publish.conf", help="Path and file name of the config file with our output params.  Used with LOG, MQTT and HEC")
-   parser.add_argument("--logfile", default="stdout", help="path/file to output tilt measurements  [defaults to stdout if not included]")
+   #parser.add_argument("--logfile", default="stdout", help="path/file to output tilt measurements  [defaults to stdout if not included]")
    parser.add_argument("--loglevel", default="INFO", help="script logging level for messages (default: INFO) INFO, DEBUG, WARN, WARNING, ERROR")
    parser.add_argument("--listentime", type=float, default=-1, help="How the script will run (in seconds) before exiting.  (default=-1 run forever)")
-   parser.add_argument("--hci", type=int, default=0, help="HCI adpater number for this device.  Use hciconfig to list devices and obtain number (X):  hciX (default=0)")
-
+   parser.add_argument("--hci", type=int, default=0, help="HCI adpater number for this device.  Use 'hciconfig' to list devices and obtain number.  SYNTAX: hciX where X is a number. (default=0)")
+   parser.add_argument("--name", type=str, default="Tilt", help="Sensor Name.")
    _args=parser.parse_args()
+
+   # define outputter
+   _outputter = PublisherFactory.factory(_args)
+   level=set_level(_args.loglevel)
 
    ###### Define graceful exit
    atexit.register(exit_handler)
-
-   ###### Define output
-   # if args.logfile=="" or args.logfile=="stdout":
-   #    _useStdOut = True
-   # else:
-   #    _useStdOut = False      
-
-   level=set_level(_args.loglevel)
-
 
    ###### ibeacon adapter and observers
    adapter = get_provider().get_adapter(_args.hci)
