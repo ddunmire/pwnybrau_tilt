@@ -15,13 +15,23 @@ a495bb **70** c5b14b44b5121370f02d74de | Yellow
 a495bb **80** c5b14b44b5121370f02d74de | Pink
 
 ## Syntax:
-python3 pwnybrau_read_tilt.py [--logfile=<filename>] [--loglevel=(INFO, WARN, DEBUG)] [--listentime={int}]
+python3 pwnybrau_read_tilt.py [--name <value>] [--output={STDOUT,LOG,HEC,MQTT}] [--output_config=<filename>] [--loglevel={INFO, WARN, DEBUG}] [--listentime={int}] [--hci <digit>]
 
 optional parameters:
-  * --logfile: path/file to output tilt measurements  [defaults to stdout if not included]
-  * --loglevel: script logging level for messages [default = INFO]
-  * --listentime: Time (in seconds) the script will wait for ibeacon events before exiting.  (default=-1 run forever)
-
+  * -h, --help            show this help message and exit
+  * --output {STDOUT,LOG,HEC,MQTT}
+                        Where to output measurements: (Default: STDOUT)
+  * --output_config OUTPUT_CONFIG
+                        Path and file name of the config file with our output
+                        params. Used with LOG, MQTT and HEC
+  * --loglevel LOGLEVEL   script logging level for messages (default: INFO)
+                        INFO, DEBUG, WARN, WARNING, ERROR
+  * --listentime LISTENTIME
+                        How the script will run (in seconds) before exiting.
+                        (default=-1 run forever)
+  * --hci HCI             HCI adpater number for this device. Use hciconfig to
+                        list devices and obtain number (X): hciX (default=0)
+  * --name NAME           Sensor Name.
 
 ## Sample output from tilt log:
     timestamp=2019-10-22T10:21:34.790175, color=Black, temp=74, gravity=1.027, rssi=-60
