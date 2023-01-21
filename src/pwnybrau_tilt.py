@@ -27,6 +27,7 @@ _TILTS = {
 _args = ""      #cmdline arguments
 _observer = ""
 _outputter:Publisher 
+_sleepUntil = 0            # this is epoch time after which the next measurement can be processed.
 
 # format json object
 _readingtemplate='{{"timestamp":"{time}", "color":"{color}", "temp":{major}, "gravity":{minor}, "rssi":{rssi}}}'  
@@ -41,26 +42,30 @@ def exit_handler():
 #    return logfile
 
 def on_advertisement(advertisement):
+    #Check to see if we are in a "sleep" cycle
+    # TODO: figure out how to sleep the observer thread 
+    global _sleepUntil
+    now = datetime.datetime.now().timestamp()
+    if _sleepUntil > now:
+      return
+    
     ibeacon = iBeacon_advertisement(advertisement)
 
     if ibeacon.is_ibeacon():
-        _uuid = ibeacon.uuid
-        _major = ibeacon.major
-        _minor = ibeacon.minor
-        _power = ibeacon.power
-        _rssi = ibeacon.rssi     #TODO: RSSI is not always negative number.  need to investigate bluetooth adapter.
+      #_uuid = ibeacon.uuid
+      #_major = ibeacon.major
+      #_minor = ibeacon.minor
+      #_power = ibeacon.power
+      #_rssi = ibeacon.rssi     #TODO: RSSI is not always negative number.  need to investigate bluetooth adapter.
 
-        if ibeacon.uuid in _TILTS:
-               msg=_readingtemplate.format(time=datetime.datetime.now(datetime.timezone.utc).isoformat(), \
+      if ibeacon.uuid in _TILTS:
+         msg=_readingtemplate.format(time=datetime.datetime.now(datetime.timezone.utc).isoformat(), \
                         color=_TILTS[ibeacon.uuid], major=ibeacon.major, minor=ibeacon.minor/1000, rssi=ibeacon.rssi)
+         _outputter.publish(msg)
 
-               #  if (_useStdOut):
-               #          print(msg)
-               #  else:
-               #          f = open(get_logfile(), "a")
-               #          f.write(msg + "\n")
-               #          f.close()
-               _outputter.publish(msg)
+      # RESET sleep timer
+      _sleepUntil = datetime.datetime.now().timestamp() + _args.sleeptime
+         
 
 def main():
    global _args, _outputter, _observer
@@ -72,6 +77,7 @@ def main():
    #parser.add_argument("--logfile", default="stdout", help="path/file to output tilt measurements  [defaults to stdout if not included]")
    parser.add_argument("--loglevel", default="INFO", help="script logging level for messages (default: INFO) INFO, DEBUG, WARN, WARNING, ERROR")
    parser.add_argument("--listentime", type=float, default=-1, help="How the script will run (in seconds) before exiting.  (default=-1 run forever)")
+   parser.add_argument("--sleeptime", type=float, default=1, help="How long to wait between measurement (in seconds) before exiting.  example: --sleeptime=.3 = 300ms (default=1s)")
    parser.add_argument("--hci", type=int, default=0, help="HCI adpater number for this device.  Use 'hciconfig' to list devices and obtain number.  SYNTAX: hciX where X is a number. (default=0)")
    parser.add_argument("--name", type=str, default="Tilt", help="Sensor Name.")
    _args=parser.parse_args()
@@ -88,12 +94,11 @@ def main():
 
    _observer = Observer(adapter)
    _observer.on_advertising_data = on_advertisement
-
    _observer.start()  # filter duplicates
 
    ###### Sleep this thread while the observer thread does its magic
-   listentime = _args.listentime
-   if listentime == -1:
+   #listentime = _args.listentime
+   if _args.listentime == -1:
       ###### TODO: Service Healthcheck and sleep???
       while True:
          sleep (10)
