@@ -15,10 +15,10 @@ a495bb **70** c5b14b44b5121370f02d74de | Yellow
 a495bb **80** c5b14b44b5121370f02d74de | Pink
 
 ## Syntax:
-python3 pwnybrau_read_tilt.py [--name <value>] [--output={STDOUT,LOG,HEC,MQTT}] [--output_config=<filename>] [--loglevel={INFO, WARN, DEBUG}] [--listentime={int}] [--hci <digit>]
+python3 pwnybrau_tilt.py [--name <value>] [--output={STDOUT,LOG,HEC,MQTT}] [--output_config=<filename>] [--loglevel={INFO, WARN, DEBUG}] [--listentime={int}] [--hci <digit>]
 
 optional parameters:
-  * -h, --help            show this help message and exit
+  * -h, --help          show this help message and exit
   * --output {STDOUT,LOG,HEC,MQTT}
                         Where to output measurements: (Default: STDOUT)
   * --output_config OUTPUT_CONFIG
@@ -29,9 +29,9 @@ optional parameters:
   * --listentime LISTENTIME
                         How the script will run (in seconds) before exiting.
                         (default=-1 run forever)
-  * --hci HCI             HCI adpater number for this device. Use hciconfig to
+  * --hci HCI           HCI adpater number for this device. Use hciconfig to
                         list devices and obtain number (X): hciX (default=0)
-  * --name NAME           Sensor Name.
+  * --name NAME         Sensor Name [Note: only used with MQTT to define the TOPIC Name.]
 
 ## Sample output from tilt log:
     timestamp=2019-10-22T10:21:34.790175, color=Black, temp=74, gravity=1.027, rssi=-60

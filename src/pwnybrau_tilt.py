@@ -79,7 +79,7 @@ def main():
    parser.add_argument("--listentime", type=float, default=-1, help="How the script will run (in seconds) before exiting.  (default=-1 run forever)")
    parser.add_argument("--sleeptime", type=float, default=1, help="How long to wait between measurement (in seconds) before exiting.  example: --sleeptime=.3 = 300ms (default=1s)")
    parser.add_argument("--hci", type=int, default=0, help="HCI adpater number for this device.  Use 'hciconfig' to list devices and obtain number.  SYNTAX: hciX where X is a number. (default=0)")
-   parser.add_argument("--name", type=str, default="Tilt", help="Sensor Name.")
+   parser.add_argument("--name", type=str, default="Tilt", help="Sensor Name. [Note: only used with MQTT to define the TOPIC Name.]")
    _args=parser.parse_args()
 
    # define outputter
