@@ -30,7 +30,7 @@ _outputter:Publisher
 _sleepUntil = 0            # this is epoch time after which the next measurement can be processed.
 
 # format json object
-_readingtemplate='{{"timestamp":"{time}", "color":"{color}", "temp":{major}, "gravity":{minor}, "rssi":{rssi}}}'  
+_readingtemplate='{{"timestamp":"{time}", "name":"{name}", "color":"{color}", "temp":{major}, "gravity":{minor}, "rssi":{rssi}}}'  
 
 def exit_handler():
    ###### TODO: gracefull shutdown
@@ -60,7 +60,8 @@ def on_advertisement(advertisement):
 
       if ibeacon.uuid in _TILTS:
          msg=_readingtemplate.format(time=datetime.datetime.now(datetime.timezone.utc).isoformat(), \
-                        color=_TILTS[ibeacon.uuid], major=ibeacon.major, minor=ibeacon.minor/1000, rssi=ibeacon.rssi)
+                        name=_args.name, color=_TILTS[ibeacon.uuid], major=ibeacon.major, \
+                        minor=ibeacon.minor/1000, rssi=ibeacon.rssi)
          _outputter.publish(msg)
 
       # RESET sleep timer

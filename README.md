@@ -15,6 +15,28 @@ a495bb **60** c5b14b44b5121370f02d74de | Blue
 a495bb **70** c5b14b44b5121370f02d74de | Yellow
 a495bb **80** c5b14b44b5121370f02d74de | Pink
 
+## Global Prereqs:
+### Unix
+Application | version | notes
+----------- | ------- | -----
+python3 | 3.7.3+ | you gotta have python
+pip3    | 23.0.1+ | used to install python dependencies  
+libcap2-bin |  [optional] - for non root execution
+bluez | 5.50+ | [optional] bluetooth cmdline tools (hcitool, bluetoothctl, etc)
+
+### Python Dependencies
+Python Package Name | version | install | website
+------------------- | ------- | ------- | -------
+bleson | 0.1.8 | pip install bleson | https://pypi.org/project/bleson/ <br /> https://github.com/TheCellule/python-bleson 
+paho-mqtt | 1.6.1+| pip install paho-mqtt | https://pypi.org/project/paho-mqtt/ <br /> https://www.eclipse.org/paho/
+
+
+## Supported Outputs
+  - **STDOUT** - sensor data is send to standard out.   
+  - __LOG__ - sensor data is written to a logfile named on the cli.
+  - **MQTT** - sensor measurements are published to a MQTT broker defined a config file.
+  - __HEC__ - [FUTURE]  not quit ready to build this one yet.
+
 ## Usage:
 ```
 $ python3 pwnybrau_tilt.py [--name <value>] [--output={STDOUT,LOG,HEC,MQTT}] [--output_config=<filename>] [--loglevel={INFO, WARN, DEBUG}] [--listentime={int}] [--hci <digit>]
@@ -41,23 +63,26 @@ optional parameters:
 ## Sample output from tilt log:
     timestamp=2019-10-22T10:21:34.790175, color=Black, temp=74, gravity=1.027, rssi=-60
 
-## Global Prereqs:
-1. python3 
-2. libcap2-bin [optional] - for non root execution
-3. bluez [optional] - bluetooth cmdline tools
 
 
 ## Install pwnybrau_tilt:
-1. copy pwnybrau_tilt into /opt/pwnybrau_tilt
-2. from ddunmire/python-bleson project, copy the bleson folder into /opt/pwnybrau_tilt/bin
+1. cd /opt
+2. git clone https://github.com/ddunmire/pwnybrau_tilt.git --recurse-submodules
+3. cd /opt/pwnybrau_tilt
+4. pip3 install -r requirements.txt
+   
+## Configuration #1: Standalone service 
 
 
-## Configuration - Pwnbrau Tilt splunk addon for Universal Forwarder (UF)
+## Configuration #2: Run Pwnybrau Tilt as a scripted input on a Splunk Universal Forwarder (UF)
  
-### Install Splunk and configure it to get data in (DGI)
+### Install Splunk and configure it to <u>G</u>et <u>D</u>ata <u>I</u>n (GDI)
+This example is a Splunk Scripted Input for a Universal Forwarder. Splunk captures sensor measurements via STDOUT and passes them to the Indexers for parsing.
+Note: No props or transforms at this time.  Sorry. 
+ 
 1. Install Splunk Univeral Forwarder  \
      (https://docs.splunk.com/Documentation/Forwarder/8.0.0/Forwarder/Installanixuniversalforwarder)  
-2. Configure your Universal Forwarder to connect ot your Splunk Indexers
+2. Configure your Universal Forwarder to connect to your Splunk Indexers
 
 ### Configure UF to use pwnybrau_tilt     
 1. create symbolic link so pwnybrau_tilt is app under splunk \
@@ -75,8 +100,8 @@ Assume user = splunk
     sudo setcap cap_net_raw,cap_net_admin+eip $(eval readlink -f `which python3`)
 4.
 
-## Blue Tooth LE Beacon tool
-
+## Bluetooth LE Beacon tools
+HCI tools to help you make sure your bluetooth adapter is working.
 
 ### bluez package 
 Bluetooth package for linux.  check out [filelist](https://packages.debian.org/buster/armhf/bluez/filelist) for all the stuffs.
