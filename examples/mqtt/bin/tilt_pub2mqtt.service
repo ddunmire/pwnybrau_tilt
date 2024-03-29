@@ -1,0 +1,12 @@
+[Unit]
+Description=Read Tilt hydrometer specific gravity and temperature metrics via bluetooth ibeacons and publish them.  See tilt_pub2edge.sh for details on where.
+
+[Service]
+WorkingDirectory=/opt/pwnybrau/pwnybrau_tilt/examples/mqtt/bin
+ExecStart=/bin/bash /opt/pwnybrau/pwnybrau_tilt/examples/mqtt/bin/tilt_pub2mqtt.sh
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target  
